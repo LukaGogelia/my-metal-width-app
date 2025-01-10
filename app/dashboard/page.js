@@ -8,11 +8,11 @@ function DashboardContent() {
   const user = searchParams.get('user'); // Extract the 'user' parameter
   const [selectedWidth, setSelectedWidth] = useState(null);
   const [usersData, setUsersData] = useState([]);
-
+  const PORT = process.env.PORT || 3000;
   // Fetch initial data
   useEffect(() => {
     // Join the application
-    fetch('http://localhost:3001/join', {
+    fetch(`http://localhost:${PORT}/join`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user }),
@@ -26,7 +26,7 @@ function DashboardContent() {
   // Update the width
   const handleWidthSelect = (width) => {
     setSelectedWidth(width);
-    fetch('http://localhost:3001/updateWidth', {
+    fetch(`http://localhost:${PORT}/updateWidth`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user, width }),
@@ -40,7 +40,7 @@ function DashboardContent() {
   // Fetch the latest data periodically
   useEffect(() => {
     const interval = setInterval(() => {
-      fetch('http://localhost:3001/usersData')
+      fetch(`http://localhost:${PORT}/usersData`)
         .then((res) => res.json())
         .then((data) => {
           setUsersData(data);
