@@ -9,45 +9,48 @@ function DashboardContent() {
   const [selectedWidth, setSelectedWidth] = useState(null);
   const [usersData, setUsersData] = useState([]);
   const PORT = process.env.PORT || 3000;
-  // Fetch initial data
-  useEffect(() => {
-    // Join the application
-    fetch(`http://localhost:${PORT}/join`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user }),
-    })
+  // Base URL for the deployed API
+const BASE_URL = 'https://my-metal-width-app.onrender.com';
+
+// Fetch initial data
+useEffect(() => {
+  fetch(`${BASE_URL}/join`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      setUsersData(data);
+    });
+}, [user]);
+
+// Update the width
+const handleWidthSelect = (width) => {
+  setSelectedWidth(width);
+  fetch(`${BASE_URL}/updateWidth`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user, width }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      setUsersData(data);
+    });
+};
+
+// Fetch the latest data periodically
+useEffect(() => {
+  const interval = setInterval(() => {
+    fetch(`${BASE_URL}/usersData`)
       .then((res) => res.json())
       .then((data) => {
         setUsersData(data);
       });
-  }, [user]);
+  }, 2000); // Update every 2 seconds
+  return () => clearInterval(interval);
+}, []);
 
-  // Update the width
-  const handleWidthSelect = (width) => {
-    setSelectedWidth(width);
-    fetch(`http://localhost:${PORT}/updateWidth`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user, width }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUsersData(data);
-      });
-  };
-
-  // Fetch the latest data periodically
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetch(`http://localhost:${PORT}/usersData`)
-        .then((res) => res.json())
-        .then((data) => {
-          setUsersData(data);
-        });
-    }, 2000); // Update every 2 seconds
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
