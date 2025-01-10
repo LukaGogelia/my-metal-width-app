@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-export default function Dashboard() {
+function DashboardContent() {
   const searchParams = useSearchParams();
   const user = searchParams.get('user'); // Extract the 'user' parameter
   const [selectedWidth, setSelectedWidth] = useState(null);
@@ -85,5 +85,13 @@ export default function Dashboard() {
         ))}
       </div>
     </div>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DashboardContent />
+    </Suspense>
   );
 }
