@@ -7,32 +7,25 @@ export default function Page() {
   const router = useRouter();
   const [selectedUser, setSelectedUser] = useState('');
 
-  const handleStart = () => {
-    if (selectedUser) {
-      router.push(`/dashboard?user=${selectedUser}`);
-    }
+  const handleStart = (user) => {
+    setSelectedUser(user);
+    router.push(`/dashboard?user=${user}`);
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-2xl font-bold mb-4">Select Your Name</h1>
-      <select
-        className="p-2 border border-gray-300 rounded"
-        value={selectedUser}
-        onChange={(e) => setSelectedUser(e.target.value)}
-      >
-        <option value="">-- Select --</option>
-        <option value="Alex">Alex</option>
-        <option value="Temur">Temur</option>
-        <option value="Salome">Salome</option>
-        <option value="Giorgi">Giorgi</option>
-      </select>
-      <button
-        onClick={handleStart}
-        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        Start
-      </button>
+      <h1 className="text-2xl font-bold mb-6">Select Your Name</h1>
+      <div className="grid grid-cols-2 gap-4">
+        {["Alex", "Temur", "Salome", "Giorgi"].map((user) => (
+          <button
+            key={user}
+            onClick={() => handleStart(user)}
+            className="bg-blue-500 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-blue-600 transition"
+          >
+            {user}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
