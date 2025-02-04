@@ -62,10 +62,13 @@ function DashboardContent() {
 
   return (
     <div className="flex flex-col items-center justify-between min-h-screen bg-gray-100 p-6">
-      
-      {/* Workers' Selections - Grouped by Width */}
+      {/* Logged in user */}
+      <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-4 mb-4 text-center">
+        <h2 className="text-lg font-semibold">შესული მომხმარებელი: {user}</h2>
+      </div>
+      {/* Others' Selections - Grouped by Width */}
       <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-4">
-        <h2 className="text-lg font-semibold mb-2 text-center">Workers' Selections</h2>
+        <h2 className="text-lg font-semibold mb-2 text-center">სხვების არჩევანი</h2>
         <div className="flex flex-wrap justify-center gap-4">
           {Object.entries(groupedByWidth).map(([width, users]) => (
             <div 
@@ -81,7 +84,7 @@ function DashboardContent() {
 
       {/* Buttons at the bottom */}
       <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-4 mt-auto">
-        <h2 className="text-lg font-semibold mb-3 text-center">Select Width</h2>
+        <h2 className="text-lg font-semibold mb-3 text-center">აირჩიეთ სიგანე</h2>
         
         {/* Width selection buttons in a 5-column grid */}
         <div className="grid grid-cols-5 gap-2">
@@ -106,7 +109,7 @@ function DashboardContent() {
             onClick={() => handleWidthSelect('none')}
             className="px-6 py-3 rounded-lg text-sm font-semibold transition bg-red-500 text-white hover:bg-red-600"
           >
-            No Selection
+            არცერთი არჩევანი
           </button>
         </div>
       </div>

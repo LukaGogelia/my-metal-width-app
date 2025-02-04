@@ -14,9 +14,9 @@ export default function Page() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-2xl font-bold mb-6">Select Your Name</h1>
+      <h1 className="text-2xl font-bold mb-6">აირჩიეთ თქვენი სახელი</h1>
       <div className="grid grid-cols-2 gap-4">
-        {["Alex", "Temur", "Salome", "Giorgi"].map((user) => (
+        {["ალექსი", "თემური", "სალომე", "გიორგი"].map((user) => (
           <button
             key={user}
             onClick={() => handleStart(user)}
