@@ -41,10 +41,8 @@ function DashboardContent() {
     let newWidths;
 
     if (width === "none") {
-      // Clear all widths when "არცერთი არჩევანი" is clicked
       newWidths = [];
     } else {
-      // Toggle the selected width
       newWidths = selectedWidths.includes(width)
         ? selectedWidths.filter((w) => w !== width)
         : [...selectedWidths, width];
@@ -55,7 +53,7 @@ function DashboardContent() {
     fetch(`${BASE_URL}/updateWidth`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user, widths: newWidths }), // Ensure `widths` is sent as an array
+      body: JSON.stringify({ user, widths: newWidths }),
     })
       .then((res) => res.json())
       .then((data) => setUsersData(data))
@@ -89,7 +87,6 @@ function DashboardContent() {
 
   return (
     <div className="flex flex-col items-center justify-between min-h-screen bg-gray-100 p-6">
-      {/* Logged-in user */}
       <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-4 mb-4 text-center">
         <h2 className="text-lg font-semibold">შესული მომხმარებელი: {user}</h2>
         <p className="text-sm text-gray-600">
@@ -98,13 +95,9 @@ function DashboardContent() {
         </p>
       </div>
 
-      {/* Error Message */}
       {error && <div className="text-red-600 font-semibold">{error}</div>}
-
-      {/* Loading Indicator */}
       {loading && <div>Loading...</div>}
 
-      {/* User List with Selected Widths */}
       <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-4">
         <h2 className="text-lg font-semibold mb-2 text-center">
           მომხმარებლები და მათი არჩევანი
@@ -134,19 +127,17 @@ function DashboardContent() {
         </div>
       </div>
 
-      {/* Width Selection */}
-      <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-4 mt-auto">
-        <h2 className="text-lg font-semibold mb-3 text-center">
+      <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-6 mt-auto">
+        {/* <h2 className="text-lg font-semibold mb-3 text-center">
           აირჩიეთ სიგანე
-        </h2>
-
-        <div className="grid grid-cols-5 gap-2">
+        </h2> */}
+        <div className="grid grid-cols-5 gap-3">
           {[0.4, 0.5, 0.7, 0.8, 1, 1.2, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10].map(
             (width) => (
               <button
                 key={width}
                 onClick={() => handleWidthSelect(width)}
-                className={`px-3 py-2 rounded-lg text-sm font-semibold transition ${
+                className={`px-4 py-3 rounded-lg text-sm font-semibold transition ${
                   selectedWidths.includes(width)
                     ? "bg-blue-600 text-white shadow-md"
                     : "bg-gray-300 hover:bg-gray-400"
@@ -158,11 +149,10 @@ function DashboardContent() {
           )}
         </div>
 
-        {/* No Selection button */}
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center mt-6">
           <button
             onClick={() => handleWidthSelect("none")}
-            className="px-6 py-3 rounded-lg text-sm font-semibold transition bg-red-500 text-white hover:bg-red-600"
+            className="px-8 py-4 rounded-lg text-sm font-semibold transition bg-red-500 text-white hover:bg-red-600"
           >
             არცერთი არჩევანი
           </button>
