@@ -12,7 +12,7 @@ function DashboardContent() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const BASE_URL = "http://app.tori.ge"; // Ensure correct backend URL
+  const BASE_URL = "https://app.tori.ge"; // Ensure correct backend URL
 
   // Fetch user data on mount
   useEffect(() => {
