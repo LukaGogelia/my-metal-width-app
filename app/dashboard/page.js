@@ -14,7 +14,6 @@ function DashboardContent() {
 
   const BASE_URL = "https://app.tori.ge"; // Ensure correct backend URL
 
-  // Fetch user data on mount
   useEffect(() => {
     if (!user) return;
 
@@ -36,7 +35,6 @@ function DashboardContent() {
       });
   }, [user]);
 
-  // Function to update width selection
   const handleWidthSelect = (width) => {
     let newWidths;
 
@@ -60,7 +58,6 @@ function DashboardContent() {
       .catch(() => setError("Failed to update width"));
   };
 
-  // Periodic fetch every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       fetch(`${BASE_URL}/usersData`)
@@ -76,7 +73,6 @@ function DashboardContent() {
     return () => clearInterval(interval);
   }, []);
 
-  // Check which users have at least one width in common
   const usersWithCommonWidths = usersData.reduce((acc, u) => {
     if (u.user === user) return acc;
     if (u.widths?.some((w) => selectedWidths.includes(w))) {
@@ -87,7 +83,7 @@ function DashboardContent() {
 
   return (
     <div className="flex flex-col items-center justify-between min-h-screen bg-gray-100 p-6">
-      <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-4 mb-4 text-center">
+      <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-4 text-center h-32 flex flex-col items-center justify-center">
         <h2 className="text-lg font-semibold">შესული მომხმარებელი: {user}</h2>
         <p className="text-sm text-gray-600">
           თქვენი სიგანეები:{" "}
@@ -98,64 +94,63 @@ function DashboardContent() {
       {error && <div className="text-red-600 font-semibold">{error}</div>}
       {loading && <div>Loading...</div>}
 
-      <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-4">
-        <h2 className="text-lg font-semibold mb-2 text-center">
-          მომხმარებლები და მათი არჩევანი
-        </h2>
-        <div className="flex flex-wrap justify-center gap-4">
-          {usersData.map((u) => (
-            <div
-              key={u.user}
-              className={`flex flex-col items-center justify-center p-4 border rounded-lg min-w-[150px] text-center ${
-                usersWithCommonWidths.has(u.user)
-                  ? "bg-yellow-300"
-                  : "bg-gray-200"
-              }`}
-            >
-              <span className="block text-lg font-bold">{u.user}</span>
-              {u.widths?.length > 0 ? (
-                <ul className="text-gray-700">
-                  {u.widths.map((w, index) => (
-                    <li key={index}>{w} მმ</li>
-                  ))}
-                </ul>
-              ) : (
-                <span className="text-gray-700">არცერთი</span>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-6 mt-auto">
-        {/* <h2 className="text-lg font-semibold mb-3 text-center">
-          აირჩიეთ სიგანე
-        </h2> */}
-        <div className="grid grid-cols-5 gap-3">
-          {[0.4, 0.5, 0.7, 0.8, 1, 1.2, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10].map(
-            (width) => (
-              <button
-                key={width}
-                onClick={() => handleWidthSelect(width)}
-                className={`px-4 py-3 rounded-lg text-sm font-semibold transition ${
-                  selectedWidths.includes(width)
-                    ? "bg-blue-600 text-white shadow-md"
-                    : "bg-gray-300 hover:bg-gray-400"
+      <div className="flex flex-col w-full max-w-3xl gap-4">
+        <div className="bg-white shadow-lg rounded-lg p-4 h-64 flex flex-col items-center justify-center">
+          <h2 className="text-lg font-semibold mb-2 text-center">
+            მომხმარებლები და მათი არჩევანი
+          </h2>
+          <div className="flex flex-wrap justify-center gap-4">
+            {usersData.map((u) => (
+              <div
+                key={u.user}
+                className={`flex flex-col items-center justify-center p-4 border rounded-lg min-w-[150px] text-center ${
+                  usersWithCommonWidths.has(u.user)
+                    ? "bg-yellow-300"
+                    : "bg-gray-200"
                 }`}
               >
-                {width}
-              </button>
-            )
-          )}
+                <span className="block text-lg font-bold">{u.user}</span>
+                {u.widths?.length > 0 ? (
+                  <ul className="text-gray-700">
+                    {u.widths.map((w, index) => (
+                      <li key={index}>{w} მმ</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <span className="text-gray-700">არცერთი</span>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="flex justify-center mt-6">
-          <button
-            onClick={() => handleWidthSelect("none")}
-            className="px-8 py-4 rounded-lg text-sm font-semibold transition bg-red-500 text-white hover:bg-red-600"
-          >
-            არცერთი არჩევანი
-          </button>
+        <div className="bg-white shadow-lg rounded-lg p-6 h-64 flex flex-col items-center justify-center">
+          <div className="grid grid-cols-5 gap-3 w-full">
+            {[0.4, 0.5, 0.7, 0.8, 1, 1.2, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10].map(
+              (width) => (
+                <button
+                  key={width}
+                  onClick={() => handleWidthSelect(width)}
+                  className={`px-4 py-3 rounded-lg text-sm font-semibold transition ${
+                    selectedWidths.includes(width)
+                      ? "bg-blue-600 text-white shadow-md"
+                      : "bg-gray-300 hover:bg-gray-400"
+                  }`}
+                >
+                  {width}
+                </button>
+              )
+            )}
+          </div>
+
+          <div className="flex justify-center mt-6">
+            <button
+              onClick={() => handleWidthSelect("none")}
+              className="px-8 py-4 rounded-lg text-sm font-semibold transition bg-red-500 text-white hover:bg-red-600"
+            >
+              არცერთი არჩევანი
+            </button>
+          </div>
         </div>
       </div>
     </div>
